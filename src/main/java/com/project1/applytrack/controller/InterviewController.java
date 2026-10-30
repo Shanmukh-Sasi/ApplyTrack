@@ -1,8 +1,10 @@
 package com.project1.applytrack.controller;
 
 import com.project1.applytrack.model.Interview;
-import com.project1.applytrack.model.InterviewOutcome;
+import com.project1.applytrack.dto.InterviewRequest;
+import com.project1.applytrack.dto.InterviewOutcomeRequest;
 import com.project1.applytrack.service.InterviewService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +20,9 @@ public class InterviewController {
     @PostMapping("/create/{applicationId}")
     public Interview create(
             @PathVariable Long applicationId,
-            @RequestBody Interview interview) {
+            @Valid @RequestBody InterviewRequest request) {
 
-        return interviewService.createInterview(applicationId, interview);
+        return interviewService.createInterview(applicationId, request);
     }
 
 
@@ -46,18 +48,18 @@ public class InterviewController {
     @PutMapping("/update/{interviewId}")
     public Interview update(
             @PathVariable Long interviewId,
-            @RequestBody Interview interview) {
+            @Valid @RequestBody InterviewRequest request) {
 
-        return interviewService.updateInterview(interviewId, interview);
+        return interviewService.updateInterview(interviewId, request);
     }
 
 
     @PatchMapping("/outcome/{interviewId}")
     public Interview updateOutcome(
             @PathVariable Long interviewId,
-            @RequestParam InterviewOutcome outcome) {
+            @Valid @RequestBody InterviewOutcomeRequest request) {
 
-        return interviewService.updateOutcome(interviewId, outcome);
+        return interviewService.updateOutcome(interviewId, request);
     }
 
 

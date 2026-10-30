@@ -2,6 +2,7 @@ package com.project1.applytrack.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,12 +20,17 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long userid;
+
     @Column(nullable = false)
     private String fullname;
+
     @Column(nullable = false,unique = true)
+    @Email
     private String email;
+
     @Column(nullable = false)
     private String password;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

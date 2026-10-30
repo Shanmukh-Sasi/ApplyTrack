@@ -1,7 +1,10 @@
 package com.project1.applytrack.controller;
 
+import com.project1.applytrack.dto.JobApplicationRequest;
+import com.project1.applytrack.dto.UpdateStatusRequest;
 import com.project1.applytrack.model.JobApplication;
 import com.project1.applytrack.service.ApplicationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +20,8 @@ public class JobApplicationController {
         return "Barama Shanmukh Raghu Sasidhar";
     }
     @PostMapping("/create")
-    public JobApplication create(@RequestBody JobApplication jobapplication) {
-        return applicationService.applicationcreated(jobapplication);
+    public JobApplicationRequest create(@Valid @RequestBody JobApplicationRequest jobApplicationRequest) {
+        return applicationService.applicationcreated(jobApplicationRequest);
     }
 
     @GetMapping("/viewall")
@@ -37,9 +40,9 @@ public class JobApplicationController {
         return "Deleted Application";
     }
 
-    @PutMapping("/UpdateStatus/{id}/{status}")
-    public String update(@PathVariable Long id, @PathVariable String status) {
-        applicationService.updatestatus(id,status);
+    @PatchMapping("/UpdateStatus/{id}")
+    public String update(@PathVariable Long id, @Valid @RequestBody UpdateStatusRequest request) {
+        applicationService.updatestatus(id, request.getStatus());
         JobApplication application = applicationService.viewbyid(id);
         return application.getId() + " "+ application.getStatus() + " Updated successfully";
     }

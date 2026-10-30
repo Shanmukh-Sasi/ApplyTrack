@@ -1,5 +1,6 @@
 package com.project1.applytrack.service;
 
+import com.project1.applytrack.dto.UserRequest;
 import com.project1.applytrack.model.User;
 import com.project1.applytrack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public void  createUser(UserRequest request) {
+        User user = new User();
+        user.setFullname(request.getFullname());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        userRepository.save(user);
     }
 }

@@ -1,6 +1,7 @@
 package com.project1.applytrack.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +29,7 @@ public class JobApplication {
     @Column(nullable = false)
     private String jobname;
 
-    @Column(nullable = false)
+
     private String jobdescription;
 
     @Column(nullable = false)

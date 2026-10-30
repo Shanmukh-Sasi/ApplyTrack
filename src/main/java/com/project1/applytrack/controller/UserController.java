@@ -1,8 +1,10 @@
 package com.project1.applytrack.controller;
 
+import com.project1.applytrack.dto.UserRequest;
 import com.project1.applytrack.model.User;
 import com.project1.applytrack.service.ApplicationService;
 import com.project1.applytrack.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +18,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/createUser")
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public String createUser(@Valid @RequestBody UserRequest request) {
+
+        userService.createUser(request);
+        return "User Created Successfully";
     }
 
 }

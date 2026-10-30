@@ -1,5 +1,8 @@
 package com.project1.applytrack.service;
 
+import com.project1.applytrack.dto.InterviewRequest;
+import com.project1.applytrack.dto.InterviewOutcomeRequest;
+import com.project1.applytrack.errorhandling.ResourceNotFound;
 import com.project1.applytrack.model.Interview;
 import com.project1.applytrack.model.InterviewOutcome;
 import com.project1.applytrack.model.JobApplication;
@@ -20,16 +23,17 @@ public class InterviewService {
 
     @Autowired
     private JobApplicationRepository jobApplicationRepository;
-    public Interview createInterview(Long applicationId, Interview interview) {
 
-        JobApplication application = jobApplicationRepository
-                .findById(applicationId)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Job application not found with ID: " + applicationId
-                        )
-                );
+    public Interview createInterview(Long applicationId, InterviewRequest request) {
 
+        JobApplication application = jobApplicationRepository.findById(applicationId).orElseThrow(() -> new ResourceNotFound("Job application not found with ID: " + applicationId));
+
+        Interview interview = new Interview();
+        interview.setInterviewRound(request.getInterviewRound());
+        interview.setScheduledAt(request.getScheduledAt());
+        interview.setOutcome(request.getOutcome());
+        interview.setFeedback(request.getFeedback());
+        interview.setMeetingLink(request.getMeetingLink());
         interview.setJobApplication(application);
 
         if (interview.getOutcome() == null) {
@@ -46,9 +50,7 @@ public class InterviewService {
     public List<Interview> viewByApplicationId(Long applicationId) {
 
         if (!jobApplicationRepository.existsById(applicationId)) {
-            throw new RuntimeException(
-                    "Job application not found with ID: " + applicationId
-            );
+            throw new ResourceNotFound("Job application not found with ID: " + applicationId);
         }
 
         return interviewRepository.findByJobApplication_Id(applicationId);
@@ -56,58 +58,30 @@ public class InterviewService {
 
     public Interview viewById(Long interviewId) {
 
-        return interviewRepository.findById(interviewId)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Interview not found with ID: " + interviewId
-                        )
-                );
+        return interviewRepository.findById(interviewId).orElseThrow(() -> new ResourceNotFound("Interview not found with ID: " + interviewId));
     }
 
-    public Interview updateInterview(Long interviewId, Interview updatedInterview) {
+    public Interview updateInterview(Long interviewId, InterviewRequest request) {
 
-        Interview existingInterview = interviewRepository.findById(interviewId)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Interview not found with ID: " + interviewId
-                        )
-                );
+        Interview interview = interviewRepository.findById(interviewId).orElseThrow(() -> new ResourceNotFound("Interview not found with ID: " + interviewId));
 
-        existingInterview.setInterviewRound(
-                updatedInterview.getInterviewRound()
-        );
 
-        existingInterview.setScheduledAt(
-                updatedInterview.getScheduledAt()
-        );
+        interview.setInterviewRound(request.getInterviewRound());
+        interview.setScheduledAt(request.getScheduledAt());
+        interview.setMeetingLink(request.getMeetingLink());
+        interview.setOutcome(request.getOutcome());
+        interview.setFeedback(request.getFeedback());
 
-        existingInterview.setMeetingLink(
-                updatedInterview.getMeetingLink()
-        );
+        return interviewRepository.save(interview);
 
-        existingInterview.setOutcome(
-                updatedInterview.getOutcome()
-        );
-
-        existingInterview.setFeedback(
-                updatedInterview.getFeedback()
-        );
-
-        
-        return interviewRepository.save(existingInterview);
     }
 
 
-    public Interview updateOutcome(Long interviewId, InterviewOutcome outcome) {
+    public Interview updateOutcome(Long interviewId, InterviewOutcomeRequest request) {
 
-        Interview interview = interviewRepository.findById(interviewId)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Interview not found with ID: " + interviewId
-                        )
-                );
+        Interview interview = interviewRepository.findById(interviewId).orElseThrow(() -> new ResourceNotFound("Interview not found with ID: " + interviewId));
 
-        interview.setOutcome(outcome);
+        interview.setOutcome(request.getOutcome());
 
         return interviewRepository.save(interview);
     }
@@ -116,12 +90,7 @@ public class InterviewService {
     @Transactional
     public void deleteInterview(Long interviewId) {
 
-        Interview interview = interviewRepository.findById(interviewId)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Interview not found with ID: " + interviewId
-                        )
-                );
+        Interview interview = interviewRepository.findById(interviewId).orElseThrow(() -> new ResourceNotFound("Interview not found with ID: " + interviewId));
 
         interviewRepository.delete(interview);
     }
