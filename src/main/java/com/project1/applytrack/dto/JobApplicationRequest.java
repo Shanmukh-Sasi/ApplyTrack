@@ -2,7 +2,6 @@ package com.project1.applytrack.dto;
 
 import com.project1.applytrack.model.ApplicationStatus;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
@@ -19,9 +18,6 @@ public class JobApplicationRequest {
     private String jobdescription;
 
     private ApplicationStatus status;
-
-    @NotNull(message = "Enter the User id")
-    private Long userid;
 
     private LocalDate appliedAt;
 
@@ -48,12 +44,6 @@ public class JobApplicationRequest {
     }
     public void setStatus(ApplicationStatus status) {
         this.status = status;
-    }
-    public Long getUserid() {
-        return userid;
-    }
-    public void setUserid(Long userid) {
-        this.userid = userid;
     }
     public LocalDate getAppliedAt() {
         return appliedAt;
