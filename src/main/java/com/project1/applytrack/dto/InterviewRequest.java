@@ -15,10 +15,8 @@ public class InterviewRequest {
     private LocalDateTime scheduledAt;
 
     private String meetingLink;
-    @NotBlank(message = "Enter the outcome of the interview")
     private InterviewOutcome outcome;
     private String feedback;
-    private String meetinglink;
 
     public String getInterviewRound() {
         return interviewRound;
@@ -60,10 +58,4 @@ public class InterviewRequest {
         this.feedback = feedback;
     }
 
-    public String getMeetinglink() {
-        return meetinglink;
-    }
-    public void setMeetinglink(String meetinglink) {
-        this.meetinglink = meetinglink;
-    }
 }

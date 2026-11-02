@@ -38,7 +38,9 @@ public class InterviewService {
         Interview interview = new Interview();
         interview.setInterviewRound(request.getInterviewRound());
         interview.setScheduledAt(request.getScheduledAt());
-        interview.setOutcome(request.getOutcome());
+        if (request.getOutcome() != null) {
+            interview.setOutcome(request.getOutcome());
+        }
         interview.setFeedback(request.getFeedback());
         interview.setMeetingLink(request.getMeetingLink());
         interview.setJobApplication(application);
@@ -80,7 +82,9 @@ public class InterviewService {
         interview.setInterviewRound(request.getInterviewRound());
         interview.setScheduledAt(request.getScheduledAt());
         interview.setMeetingLink(request.getMeetingLink());
-        interview.setOutcome(request.getOutcome());
+        if (request.getOutcome() != null) {
+            interview.setOutcome(request.getOutcome());
+        }
         interview.setFeedback(request.getFeedback());
 
         return interviewRepository.save(interview);
