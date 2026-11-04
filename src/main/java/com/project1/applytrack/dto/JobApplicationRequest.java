@@ -2,6 +2,7 @@ package com.project1.applytrack.dto;
 
 import com.project1.applytrack.model.ApplicationStatus;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
@@ -17,8 +18,10 @@ public class JobApplicationRequest {
 
     private String jobdescription;
 
+    @NotNull(message = "Application status is required")
     private ApplicationStatus status;
 
+    @NotNull(message = "Application date is required")
     private LocalDate appliedAt;
 
     public String getCompanyname() {

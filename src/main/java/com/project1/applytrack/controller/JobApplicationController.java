@@ -31,6 +31,13 @@ public class JobApplicationController {
         return applicationService.applicationcreated(jobApplicationRequest, currentUser.getUsername());
     }
 
+    @PutMapping("/update/{id}")
+    public JobApplication update(@PathVariable Long id,
+                                 @Valid @RequestBody JobApplicationRequest request,
+                                 @AuthenticationPrincipal UserDetails currentUser) {
+        return applicationService.updateApplication(id, request, currentUser.getUsername());
+    }
+
     @GetMapping("/viewall")
     public Page<JobApplication> viewall(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,

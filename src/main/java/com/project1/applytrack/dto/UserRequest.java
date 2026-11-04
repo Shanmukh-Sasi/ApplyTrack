@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 
 public class UserRequest {
     @NotBlank(message = "User Name Required")
-    @Size(max = 20,message = "Enter the fullname 20 characters")
     private String fullname;
     @NotBlank(message = "Password Required")
     @Size(min = 8,message = "Password must be more than 8 characters")

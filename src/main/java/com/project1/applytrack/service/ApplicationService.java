@@ -36,6 +36,21 @@ public class ApplicationService {
         return request;
     }
 
+    @Transactional
+    public JobApplication updateApplication(Long id, JobApplicationRequest request, String email) {
+        JobApplication application = viewbyid(id, email);
+        ApplicationStatus previousStatus = application.getStatus();
+        if (request.getStatus() != previousStatus) {
+            statushistoryservice.updatestatus(application, previousStatus, request.getStatus());
+        }
+        application.setCompanyname(request.getCompanyname());
+        application.setJobname(request.getJobname());
+        application.setJobdescription(request.getJobdescription());
+        application.setStatus(request.getStatus());
+        application.setAppliedAt(request.getAppliedAt());
+        return jobapplicationrepo.save(application);
+    }
+
     public Page<JobApplication> viewall(Pageable pageable, String email) {
         return jobapplicationrepo.findAllByUser_Userid(findUserByEmail(email).getUserid(), pageable);
     }
